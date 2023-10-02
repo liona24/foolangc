@@ -1,0 +1,134 @@
+NonTerminal($):
+   $ → [ GLOBAL_STATEMENTS ]
+NonTerminal(BLOCK):
+   BLOCK → [ { STATEMENTS } ]
+   BLOCK → [ { } ]
+NonTerminal(STATEMENT):
+   STATEMENT → [ DECL ; ]
+   STATEMENT → [ ASSIGN ; ]
+   STATEMENT → [ EXPR_L1 ; ]
+   STATEMENT → [ LOGIC_EXPR_L1 ; ]
+   STATEMENT → [ IF ]
+   STATEMENT → [ LOOP ]
+   STATEMENT → [ RETURN ; ]
+   STATEMENT → [ break ; ]
+   STATEMENT → [ continue ; ]
+NonTerminal(STATEMENTS):
+   STATEMENTS → [ STATEMENT ]
+   STATEMENTS → [ STATEMENTS STATEMENT ]
+NonTerminal(GLOBAL_STATEMENT):
+   GLOBAL_STATEMENT → [ DECL ; ]
+   GLOBAL_STATEMENT → [ ASSIGN ; ]
+   GLOBAL_STATEMENT → [ EXPR_L1 ; ]
+   GLOBAL_STATEMENT → [ LOGIC_EXPR_L1 ; ]
+   GLOBAL_STATEMENT → [ FUNC ]
+   GLOBAL_STATEMENT → [ IF ]
+   GLOBAL_STATEMENT → [ LOOP ]
+   GLOBAL_STATEMENT → [ STRUCT ]
+NonTerminal(GLOBAL_STATEMENTS):
+   GLOBAL_STATEMENTS → [ GLOBAL_STATEMENT ]
+   GLOBAL_STATEMENTS → [ GLOBAL_STATEMENTS GLOBAL_STATEMENT ]
+NonTerminal(RETURN):
+   RETURN → [ return ]
+   RETURN → [ return EXPR_L1 ]
+   RETURN → [ return LOGIC_EXPR_L1 ]
+NonTerminal(DECL):
+   DECL → [ TYPE identifier = EXPR_L1 ]
+   DECL → [ TYPE identifier = LOGIC_EXPR_L1 ; ]
+NonTerminal(ASSIGN):
+   ASSIGN → [ LHS = EXPR_L1 ]
+   ASSIGN → [ LHS = LOGIC_EXPR_L1 ]
+NonTerminal(FUNC):
+   FUNC → [ func identifier ( PARAMS ) = TYPE BLOCK ]
+   FUNC → [ func identifier ( PARAMS ) BLOCK ]
+   FUNC → [ func identifier ( ) = TYPE BLOCK ]
+   FUNC → [ func identifier ( ) BLOCK ]
+NonTerminal(PARAMS):
+   PARAMS → [ TYPE identifier ]
+   PARAMS → [ PARAMS , TYPE identifier ]
+NonTerminal(STRUCT):
+   STRUCT → [ struct identifier { STRUCT_FIELDS } ]
+NonTerminal(STRUCT_FIELDS):
+   STRUCT_FIELDS → [ STRUCT_FIELD ]
+   STRUCT_FIELDS → [ STRUCT_FIELDS STRUCT_FIELD ]
+NonTerminal(STRUCT_FIELD):
+   STRUCT_FIELD → [ TYPE identifier ; ]
+NonTerminal(CALL):
+   CALL → [ identifier ( ARGS ) ]
+   CALL → [ identifier ( ) ]
+   CALL → [ builtin ( ARGS ) ]
+   CALL → [ builtin ( ) ]
+NonTerminal(ARGS):
+   ARGS → [ ARG ]
+   ARGS → [ ARGS , ARG ]
+NonTerminal(ARG):
+   ARG → [ EXPR_L1 ]
+   ARG → [ LOGIC_EXPR_L1 ]
+NonTerminal(LOGIC_EXPR_L1):
+   LOGIC_EXPR_L1 → [ LOGIC_EXPR_L2 ]
+   LOGIC_EXPR_L1 → [ LOGIC_EXPR_L1 or LOGIC_EXPR_L2 ]
+NonTerminal(LOGIC_EXPR_L2):
+   LOGIC_EXPR_L2 → [ LOGIC_EXPR_L3 ]
+   LOGIC_EXPR_L2 → [ LOGIC_EXPR_L2 and LOGIC_EXPR_L3 ]
+NonTerminal(LOGIC_EXPR_L3):
+   LOGIC_EXPR_L3 → [ not ( LOGIC_EXPR_L1 ) ]
+   LOGIC_EXPR_L3 → [ EXPR_L1 < EXPR_L1 ]
+   LOGIC_EXPR_L3 → [ EXPR_L1 == EXPR_L1 ]
+   LOGIC_EXPR_L3 → [ EXPR_L1 != EXPR_L1 ]
+NonTerminal(EXPR_L1):
+   EXPR_L1 → [ EXPR_L2 ]
+   EXPR_L1 → [ EXPR_L1 + EXPR_L2 ]
+   EXPR_L1 → [ EXPR_L1 - EXPR_L2 ]
+NonTerminal(EXPR_L2):
+   EXPR_L2 → [ EXPR_L3 ]
+   EXPR_L2 → [ EXPR_L2 * EXPR_L3 ]
+   EXPR_L2 → [ EXPR_L2 / EXPR_L3 ]
+NonTerminal(EXPR_L3):
+   EXPR_L3 → [ RHS ]
+   EXPR_L3 → [ ADDR_OF ]
+   EXPR_L3 → [ LITERAL ]
+   EXPR_L3 → [ - EXPR_L3 ]
+   EXPR_L3 → [ ( EXPR_L1 ) ]
+   EXPR_L3 → [ CALL ]
+NonTerminal(TYPE):
+   TYPE → [ ARRAY ]
+   TYPE → [ POINTER ]
+   TYPE → [ struct identifier ]
+   TYPE → [ int ]
+   TYPE → [ byte ]
+NonTerminal(ARRAY):
+   ARRAY → [ TYPE [ number_literal ] ]
+NonTerminal(POINTER):
+   POINTER → [ TYPE * ]
+NonTerminal(REF):
+   REF → [ identifier ]
+   REF → [ REF . identifier ]
+   REF → [ REF [ EXPR_L1 ] ]
+NonTerminal(DEREF):
+   DEREF → [ * REF ]
+   DEREF → [ * DEREF ]
+NonTerminal(ADDR_OF):
+   ADDR_OF → [ & REF ]
+   ADDR_OF → [ & string_literal ]
+NonTerminal(RHS):
+   RHS → [ DEREF ]
+   RHS → [ REF ]
+NonTerminal(LHS):
+   LHS → [ DEREF ]
+   LHS → [ REF ]
+NonTerminal(LITERAL):
+   LITERAL → [ byte_literal ]
+   LITERAL → [ number_literal ]
+   LITERAL → [ string_literal ]
+NonTerminal(IF):
+   IF → [ if LOGIC_EXPR_L1 BLOCK ]
+   IF → [ if LOGIC_EXPR_L1 BLOCK ELIF ]
+   IF → [ if LOGIC_EXPR_L1 BLOCK ELSE ]
+NonTerminal(ELIF):
+   ELIF → [ elif LOGIC_EXPR_L1 BLOCK ]
+   ELIF → [ elif LOGIC_EXPR_L1 BLOCK ELIF ]
+   ELIF → [ elif LOGIC_EXPR_L1 BLOCK ELSE ]
+NonTerminal(ELSE):
+   ELSE → [ else BLOCK ]
+NonTerminal(LOOP):
+   LOOP → [ loop BLOCK ]
